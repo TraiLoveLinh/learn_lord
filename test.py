@@ -1,12 +1,38 @@
-import math
-a = float(input("nhap so a: "))
-b = float(input("nhap so b: "))
-c = float(input("nhap so c: "))
-den_ta = b ** 2 - 4 * a * c
-print(den_ta)
-if den_ta > 0:
-    print("phuong trinh co 2 nghiem phan biet: x1 =", (- b + math.sqrt(den_ta)) /(2 * a),"x2 =", (- b - math. sqrt(den_ta)) /(2 * a))
-elif den_ta == 0:
-    print("phuong trinh co nghiem kep: x1 = x2 =", -b / 2 * a)
-else:
-    print("phuong trinh vo nghiem nhaaa")
+def targetCross(arr, left, mid, right, target):
+    Sum = 0
+    sumL = arr[mid]
+    maxL = mid
+    for i in range(mid, left - 1, -1):
+        Sum += arr[i]
+        if (Sum > maxL):
+            sumL = Sum
+            maxL = i
+    Sum = 0
+    sumR = arr[mid + 1]
+    maxR = mid + 1
+    for j in range(mid + 1, right + 1):
+        Sum += arr[j]
+        if (Sum > sumR):
+            sumR = Sum
+            maxR = j
+    Sum = sumL + sumR
+    return maxL, maxR, Sum
+
+def targetSubArray(arr, left, right, target):
+    if (left == right):
+        return left, right, arr[left]
+    else:
+        mid = (left + right) // 2
+        leftL, rightL, sumL = maxSubArray(arr, left, mid)
+        leftR, rightR, sumR = maxSubArray(arr, mid + 1, right)
+        leftX, rightX, sumX = maxCross(arr, left, mid, right)
+        if ((sumL >= sumR) and (sumL >= sumX)):
+            return leftL, rightL, sumL
+        elif((sumR >= sumR) and (sumR >= sumX)):
+            return leftR, rightR, sumR
+        else:
+            return leftX, rightX, sumX
+
+
+arr = [13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]
+print(maxSubArray2(arr, 0, len(arr) - 1))
