@@ -1,38 +1,46 @@
+ans = 0
 def targetCross(arr, left, mid, right, target):
+    global ans
+
     Sum = 0
     sumL = arr[mid]
-    maxL = mid
     for i in range(mid, left - 1, -1):
         Sum += arr[i]
-        if (Sum > maxL):
-            sumL = Sum
-            maxL = i
+        if (Sum == target):
+            ans += 1
     Sum = 0
     sumR = arr[mid + 1]
-    maxR = mid + 1
     for j in range(mid + 1, right + 1):
         Sum += arr[j]
-        if (Sum > sumR):
-            sumR = Sum
-            maxR = j
+        if (Sum == target):
+            ans += 1
     Sum = sumL + sumR
-    return maxL, maxR, Sum
+    if Sum == target:
+        ans += 1
+    return Sum
 
 def targetSubArray(arr, left, right, target):
     if (left == right):
-        return left, right, arr[left]
+        if (arr[left] == target):
+            global ans
+            ans += 1
     else:
+        # global ans
         mid = (left + right) // 2
-        leftL, rightL, sumL = maxSubArray(arr, left, mid)
-        leftR, rightR, sumR = maxSubArray(arr, mid + 1, right)
-        leftX, rightX, sumX = maxCross(arr, left, mid, right)
-        if ((sumL >= sumR) and (sumL >= sumX)):
-            return leftL, rightL, sumL
-        elif((sumR >= sumR) and (sumR >= sumX)):
-            return leftR, rightR, sumR
-        else:
-            return leftX, rightX, sumX
+        sumL = targetSubArray(arr, left, mid, target)
+        sumR = targetSubArray(arr, mid + 1, right, target)
+        sumX = targetCross(arr, left, mid, right, target)
+        if sumL == target:
+            ans += 1
+            return sumL
+        if sumR == target:
+            ans += 1
+            return sumR
+        if sumX == target:
+            ans += 1
+            return sumX
 
 
-arr = [13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]
-print(maxSubArray2(arr, 0, len(arr) - 1))
+arr = [4,4]
+print(targetSubArray(arr, 0, len(arr) - 1, 4))
+print(ans)
