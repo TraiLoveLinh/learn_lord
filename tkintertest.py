@@ -1,0 +1,23 @@
+from tkinter.ttk import Combobox # Import Combobox từ tkinter.ttk
+from tkinter import *
+win = Tk()
+win.title("Bói Toán")
+win.minsize(width=500, height=500)
+frame = Frame(win)
+frame.pack()
+thongtin = LabelFrame(frame, text='Thông Tin Của Bạn Và Cô Ấy', fg='red')
+thongtin.grid(row=8, column=8, padx=18, pady=20)
+ten_nam = Label(thongtin, text="Nhập tên của bạn: ")
+ten_nam.grid(row=0, column=0)
+ten_nu = Label(thongtin, text="Nhập tên của cô ấy: ")
+ten_nu.grid(row=1, column=0)
+ten_nam_tb = Entry(thongtin)
+ten_nam_tb.grid(row=0, column=1)
+ten_nu_tb = Entry(thongtin)
+ten_nu_tb.grid(row=1, column=1)
+combo_label = Label(thongtin, text="Tình trạng hiện tại", fg="green")
+combo_label.grid(row=2, column=0)
+values = ["Mới làm quen", "Thân nhau đã lâu", "Ghét vcl"]
+combo = Combobox(thongtin, values=values)
+combo.grid(row=2, column=1)
+win.mainloop()
